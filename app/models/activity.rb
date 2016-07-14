@@ -13,6 +13,9 @@ class Activity < ActiveRecord::Base
   delegate :plan, :actual, to: :work_performance, prefix: true, allow_nil: true
   delegate :name, to: :user, prefix: true, allow_nil: true
 
+  scope :split_by_product_backlog, ->product_backlog{where product_backlog_id: product_backlog.id}
+
+
   def get_remaining_activity
     self.log_works.any? ? self.log_works.pluck(:remaining_time).min : 0
   end
